@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+
+    tools {
+        nodejs 'NODE_HOME'
+    }
+    
+stages {
+    stage('Getting project from Github') {
+            steps {
+                git 'https://github.com/eyadrihmi/front-devops.git'
+            }
+        }
+        stage('Install') {
+            steps { 
+                sh 'npm install'
+            }
+        }
+        stage('Build') {
+          steps { 
+              sh 'npm run build'
+              }
+        }
+        
+        stage('Docker Image Build'){
+            steps{
+                script{
+                sh 'docker login -u eyadrihmi -p ${docker_hub_cred}'
+                sh 'docker image build -t $JOB_NAME:v1.$BUILD_ID .'
+		            sh 'docker image tag $JOB_NAME:v1.$BUILD_ID eyadrihmi/achat/$JOB_NAME:v1.$BUILD_ID'
+		            sh 'docker image tag $JOB_NAME:v1.$BUILD_ID eyadrihmi/achat/$JOB_NAME:latest'
+                }  
+            }
+        }
+        
+        stage('Push image to the DockerHub'){
+            steps{
+                script{
+                    withCredentials([string(credentialsId: 'git_creds', variable: 'docker_hub_cred')]) {
+                        sh 'docker login -u eyadrihmi -p ${docker_hub_cred}'
+                        sh 'docker image push eyadrihmi/achat/$JOB_NAME:latest' 
+                    }
+                }  
+            }
+        }
+    }
+}
