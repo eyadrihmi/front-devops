@@ -17,6 +17,6 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag front:$(date +%s)
     - name: Push the Docker image
-      run: docker login -u eyadrihmi -p ${{ secrets.DOCKER_TOKEN }} && docker push eyadrihmi/front:latest
+      run: docker login -u eyadrihmi -p ${{secrets.DOCKER_TOKEN}} && docker push eyadrihmi/front:latest
       
       
