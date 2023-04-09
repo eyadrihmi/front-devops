@@ -3,7 +3,7 @@ FROM node:16.10-alpine3.11
     COPY package.json package-lock.json ./
     RUN npm i -g @angular/cli
     
-    # Install app dependencies:
+    # Install app dependencies :
     RUN npm i 
     
     COPY . .
