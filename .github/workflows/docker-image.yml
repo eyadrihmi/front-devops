@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag front:$(date +%s)
+      run: docker build . --file Dockerfile --tag eyadrihmi/front:latest
     - name: Push the Docker image
       run: docker login -u eyadrihmi -p ${{secrets.DOCKER_TOKEN}} && docker push eyadrihmi/front:latest
       
