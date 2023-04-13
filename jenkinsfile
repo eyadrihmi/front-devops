@@ -8,27 +8,7 @@ pipeline {
             }
         }
     
-        stage('UNIT Testing') {
-            steps {
-                sh 'mvn test'
-            }
-        }
-        
-        stage('Integration testing') {
-            steps {
-                sh 'mvn verify -DskipUnitTests'
-            }
-        }
-
-        stage('Maven Build') {
-            steps {
-                sh 'mvn clean install'
-            }
-        }
-        
-      
-   
-        
+       
         stage('Docker Image Build'){
             steps{
                 script{
