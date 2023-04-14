@@ -24,11 +24,20 @@ pipeline {
                 script{
                   withCredentials([string(credentialsId: 'github_cred', variable: 'docker_hub_cred')]) {
 		               sh 'docker login -u eyadrihmi -p ${docker_hub_cred} docker.io'
-			             sh 'docker image push eyadrihmi/$JOB_NAME:v1.$BUILD_ID'
+			             //sh 'docker image push eyadrihmi/$JOB_NAME:v1.$BUILD_ID'
 			             sh 'docker image push eyadrihmi/$JOB_NAME:latest' 
                     }
                 }  
             }
         }
+        stage('Deploy to Kubernetes with ansible') {
+    steps {
+        script {
+            
+            // Exécution du playbook Ansible pour effectuer le déploiement
+            ansiblePlaybook become: true, installation: 'ansible', inventory: 'hosts', playbook: 'ansible.yaml'
+           }
+        }
+      }
     }
 }
