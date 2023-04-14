@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: angular-frontend
+  name: front_devops
 spec:
   selector:
     matchLabels:
-      app: angular-frontend
+      app: front_devops
   replicas: 3
   template:
     metadata:
       labels:
-        app: angular-frontend
+        app: front_devops
     spec:
       containers:
-      - name: angular-frontend
+      - name: front_devops
         image: eyadrihmi/front_devops:latest
         ports:
         - containerPort: 80
