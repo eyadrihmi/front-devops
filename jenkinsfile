@@ -35,7 +35,7 @@ pipeline {
         script {
             
             // Exécution du playbook Ansible pour effectuer le déploiement
-            ansiblePlaybook become: true, installation: 'ansible', inventory: 'hosts', playbook: 'ansible.yaml'
+            ansiblePlaybook become: true, installation: 'ansible', inventory: 'hosts', playbook: 'ansible.yml'
            }
         }
       }
