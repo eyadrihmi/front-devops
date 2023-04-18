@@ -3,6 +3,7 @@ FROM node:16.13-alpine3.14 AS build
 WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
 RUN npm i -g @angular/cli
+RUN npm install
 COPY . .
 RUN npm run build --prod
 
