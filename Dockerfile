@@ -1,12 +1,26 @@
-# Etape 1: build de l'application Angular
-FROM node:16.13-alpine3.14 AS build
-WORKDIR /usr/src/app
-COPY package.json package-lock.json ./
-RUN npm i -g @angular/cli
-RUN npm install
-COPY . .
-RUN npm run build --prod
+FROM node:8.9.4-alpine as builder
 
-# Etape 2: Utiliser Nginx pour héberger l'application
-FROM nginx:alpine
-COPY --from=build /usr/src/app/dist /usr/share/nginx/html
+COPY package.json ./
+
+## Storing node modules on a separate layer will prevent unnecessary npm installs at each build
+RUN npm i && mkdir /ng-app && mv ./node_modules ./ng-app
+
+WORKDIR /ng-app
+
+COPY . .
+
+RUN npm run build:aot:prod
+
+# Stage 2, based on Nginx, to have only the compiled app, ready for production with Nginx
+
+FROM nginx:1.13.9-alpine
+
+COPY ./config/nginx-custom.conf /etc/nginx/conf.d/default.conf
+                                  
+## Remove default nginx website
+RUN rm -rf /usr/share/nginx/html/*
+
+## From ‘builder’ stage copy over the artifacts in dist folder to default nginx public folder
+COPY --from=builder /ng-app/dist /usr/share/nginx/html
+
+CMD ["nginx", "-g", "daemon off;"]ml
