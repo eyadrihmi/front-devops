@@ -1,17 +1,11 @@
-FROM node:latest as builder
-
-RUN mkdir -p /app
-
-WORKDIR /app
-
-COPY . .
-
-RUN npm install
-RUN npm run build --prod
-
-CMD ["npm", "start"]
-
-FROM nginx:alpine
-COPY src/nginx/etc/conf.d/default.conf /etc/nginx/conf/default.conf
-COPY --from=builder app/dist/angular8-crud-demo usr/share/nginx/html
-
+FROM node:16.10-alpine3.11
+    WORKDIR /usr/src/app
+    COPY package.json package-lock.json ./
+    RUN npm i -g @angular/cli
+    
+    # Install app dependencies:
+    RUN npm i 
+    
+    COPY . .
+    RUN ng build --prod
+ENTRYPOINT ["ng","serve","--host","0.0.0.0","--port","4201"]
