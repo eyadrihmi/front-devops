@@ -8,6 +8,5 @@ COPY . .
 RUN npm run build --prod
 
 # Etape 2: Utiliser Nginx pour héberger l'application
-FROM nginx:1.21.0-alpine
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY --from=build /usr/src/app/dist/ /usr/share/nginx/html/
+FROM nginx:alpine
+COPY --from=build /usr/src/app/dist /usr/share/nginx/html
