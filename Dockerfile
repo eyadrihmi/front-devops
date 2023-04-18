@@ -7,6 +7,7 @@ RUN npm i && mkdir /ng-app && mv ./node_modules ./ng-app
 
 WORKDIR /ng-app
 
+RUN npm install
 COPY . .
 
 RUN npm run build:aot:prod
