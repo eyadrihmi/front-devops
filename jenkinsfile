@@ -30,15 +30,6 @@ pipeline {
                 }  
             }
         }
-        stage('Deploy to Kubernetes with ansible') {
-    steps {
-        script {
-            
-            // Exécution du playbook Ansible pour effectuer le déploiement
-            ansiblePlaybook installation: 'ansible', inventory: 'hosts', playbook: 'ansible.yml'
-            
-           }
-        }
-      }
+        
     }
 }
