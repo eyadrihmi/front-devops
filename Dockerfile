@@ -1,11 +1,10 @@
-# Stage 1
-FROM node:14.15.4 as node
+# stage 1
+FROM node:latest as node
 WORKDIR /app
 COPY . .
 RUN npm install
 RUN npm run build --prod
 
-# Stage 2
+# stage 2
 FROM nginx:alpine
-WORKDIR /usr/share/nginx/html
-COPY --from=node /app/dist /usr/share/nginx/html
+COPY --from=node /app/dist/angular-app /usr/share/nginx/html
