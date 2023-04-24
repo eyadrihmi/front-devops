@@ -1,7 +1,8 @@
 # Stage 1: Compile and Build angular codebase
-
-# Use official node image as the base image
 FROM node:latest as build
+
+# Update OpenSSL
+RUN apt-get update && apt-get install -y openssl
 
 # Set the working directory
 WORKDIR /usr/local/app
@@ -15,10 +16,7 @@ RUN npm install
 # Generate the build of the application
 RUN npm run build
 
-
 # Stage 2: Serve app with nginx server
-
-# Use official nginx image as the base image
 FROM nginx:latest
 
 # Copy the build output to replace the default nginx contents.
