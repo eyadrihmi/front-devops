@@ -1,11 +1,11 @@
-# Stage 1
-FROM node:14.15.4 as node
-WORKDIR /app
-COPY . .
-RUN npm install
-RUN npm run build --prod
-
-# Stage 2
-FROM nginx:alpine
-WORKDIR /usr/share/nginx/html
-COPY --from=node /app/dist /usr/share/nginx/html
+FROM node:16.10-alpine3.11
+    WORKDIR /usr/src/app
+    COPY package.json package-lock.json ./
+    RUN npm i -g @angular/cli
+    
+    # Install app dependencies:
+    RUN npm i 
+    
+    COPY . .
+    RUN ng build --prod
+ENTRYPOINT ["ng","serve","--host","0.0.0.0","--port","4201"]
