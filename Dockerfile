@@ -1,27 +1,28 @@
-FROM node:8.9.4-alpine as builder
+# Stage 1: Compile and Build angular codebase
 
-COPY package.json ./
+# Use official node image as the base image
+FROM node:latest as build
 
-## Storing node modules on a separate layer will prevent unnecessary npm installs at each build
-RUN npm i && mkdir /ng-app && mv ./node_modules ./ng-app
+# Set the working directory
+WORKDIR /usr/local/app
 
-WORKDIR /ng-app
+# Add the source code to app
+COPY ./ /usr/local/app/
 
+# Install all the dependencies
 RUN npm install
-COPY . .
 
-RUN npm run build:aot:prod
+# Generate the build of the application
+RUN npm run build
 
-# Stage 2, based on Nginx, to have only the compiled app, ready for production with Nginx
 
-FROM nginx:1.13.9-alpine
+# Stage 2: Serve app with nginx server
 
-COPY ./config/nginx-custom.conf /etc/nginx/conf.d/default.conf
-                                  
-## Remove default nginx website
-RUN rm -rf /usr/share/nginx/html/*
+# Use official nginx image as the base image
+FROM nginx:latest
 
-## From ‘builder’ stage copy over the artifacts in dist folder to default nginx public folder
-COPY --from=builder /ng-app/dist /usr/share/nginx/html
+# Copy the build output to replace the default nginx contents.
+COPY --from=build /usr/local/app/dist/front-devops/usr/share/nginx/html
 
-CMD ["nginx", "-g", "daemon off;"]ml
+# Expose port 80
+EXPOSE 80
