@@ -1,4 +1,4 @@
-FROM node:latest as builder
+FROM node:14.20-alpine3.14
     WORKDIR /usr/src/app
     COPY package.json package-lock.json ./
     RUN npm i -g @angular/cli
