@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: "http://localhost:8089/SpringMVC"
+  url: "http://10.36.0.1:8080/SpringMVC"
 };
 
 /*
