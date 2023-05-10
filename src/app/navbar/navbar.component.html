@@ -1,6 +1,21 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Navbar Example</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <style>
+    .navbar-dark .navbar-nav .nav-link {
+      color: white;
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-black">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">TP Achat</a>
+    <a class="navbar-brand" href="#">Achat</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -25,6 +40,13 @@
           <a class="nav-link" routerLink="/stock">Stock</a>
         </li>
       </ul>
+      <form class="form-inline ml-auto">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+      </form>
     </div>
   </div>
 </nav>
+
+</body>
+</html>
